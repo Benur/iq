@@ -1,14 +1,17 @@
-//#include <dataviewer.h>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <QApplication>
 #include <sstream>
 #include <string>
 #include <unistd.h>
 #include <vector>
- 
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMainWindow>
+#include "chartview.h"
+
+QT_CHARTS_USE_NAMESPACE
 using namespace std;
+using namespace QtCharts;
 
 const string filename = "AirQualityUCI.csv";
 
@@ -55,17 +58,28 @@ vector<pair<string, vector<float>>> read_csv(string filename) {
 
 int main(int argc, char **argv)
 {
-    QApplication DataViewer(argc, argv);
-    
+    cout << "reading data ...\n";
     const string filename = "AirQualityUCI.csv";
     // read data
     vector<pair<string, vector<float>>> data = read_csv(filename);
-    
+    cout << "... data read\n";
+
     // handle missing data
 
     // normalize data
 
     // lin reg
+
+    // show results
+    QApplication DataViewer(argc, argv);
+    
+    //![4]
+    ChartView *chartView = new ChartView();
+    QMainWindow window;
+    window.setCentralWidget(chartView);
+    window.resize(400, 300);
+    window.show();
+    //![4]
 
     /*if (__cplusplus == 201703L) std::cout << "C++17\n";
     else if (__cplusplus == 201402L) std::cout << "C++14\n";
@@ -77,6 +91,5 @@ int main(int argc, char **argv)
     path=getcwd(path,size);
     cout<<"\n current Path: "<<path<<"\n";*/
 
-    cout << data.at(1).second.at(29) << "\n";
-    return 0;
+    return DataViewer.exec();
 }
