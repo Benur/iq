@@ -1,3 +1,8 @@
+# Problem Statement 1
+The implementation follows the lecture slides from the machine learning course by Andrew Ng on coursera (https://www.coursera.org/learn/machine-learning)
+
+I did not know, which graph to plot exactly and which should be the examined feature. At the moment learning_rate, iterations and testwise CO(GT) as examined feature are hardcoded. There was no time left for a neat writeup of code and documentation.
+
 # TODOs:
 - read csv file
     + String

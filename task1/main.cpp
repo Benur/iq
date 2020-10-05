@@ -138,7 +138,7 @@ int main(int argc, char **argv)
 
 
     // show results
-    QApplication DataViewer(argc, argv);
+    /*QApplication DataViewer(argc, argv);
     
     //![4]
     ChartView *chartView = new ChartView();
@@ -148,7 +148,7 @@ int main(int argc, char **argv)
     window.show();
     //![4]
 
-    /*if (__cplusplus == 201703L) std::cout << "C++17\n";
+    if (__cplusplus == 201703L) std::cout << "C++17\n";
     else if (__cplusplus == 201402L) std::cout << "C++14\n";
     else if (__cplusplus == 201103L) std::cout << "C++11\n";
     else if (__cplusplus == 199711L) std::cout << "C++98\n";
@@ -156,7 +156,8 @@ int main(int argc, char **argv)
     char *path=NULL;
     size_t size;
     path=getcwd(path,size);
-    cout<<"\n current Path: "<<path<<"\n";*/
+    cout<<"\n current Path: "<<path<<"\n";
 
-    return DataViewer.exec();
+    return DataViewer.exec();*/
+    return 0;
 }
