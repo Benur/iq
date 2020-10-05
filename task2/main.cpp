@@ -2,7 +2,16 @@
 #include <stdio.h>
 #include <vector>
 #include <cmath>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMainWindow>
+#include <QtCharts/QScatterSeries>
+#include <QtCharts/QLegendMarker>
+#include <QtGui/QImage>
+#include <QtGui/QPainter>
+#include <QtCore/QtMath>
+#include <QtCharts/QChartView>
 
+QT_CHARTS_USE_NAMESPACE
 using namespace std;
 
 double dist(pair<pair<double, double>, pair<double, double>> pair) {
@@ -111,7 +120,7 @@ vector<pair<double, double>> merge_sort(vector<pair<double, double>> list) {
     return merge(left, right);
 }
 
-int main(int, char**) {
+int main(int argc, char **argv) {
     cout << "Hello, world!\n";
     // generate a random pair of 100 values
     vector<pair<double, double>> list;
@@ -124,13 +133,46 @@ int main(int, char**) {
     }
     // sort points according to their x-coordinates
     list = merge_sort(list);
-    cout << "Hello, sorted list!\n";
 
     // find closest point with divide and conquer (O(N log N))
     pair<pair<double, double>,pair<double, double>> closestPair = findClosestPair(list);
-    cout << "Hello, closest pair distance:  " << dist(closestPair) << "\n";
-    // plot
+    // plot it
 
+    QApplication app(argc, argv);
+    QChartView *plot = new QChartView();
+    QScatterSeries *series = new QScatterSeries();
+    series->setMarkerShape(QScatterSeries::MarkerShapeCircle);
+    series->setMarkerSize(7.0);
+    series->setName("All Points");
+    for (int i = 0; i < 100; i++) {
+        series->append(list.at(i).first, list.at(i).second);
+    }
 
+    QScatterSeries *dmin = new QScatterSeries();
+    dmin->setMarkerShape(QScatterSeries::MarkerShapeCircle);
+    dmin->setMarkerSize(9.0);
+    dmin->setColor(QColor(255, 0, 0, 127));
+    dmin->setName("Closest Pair, distance: " + QString::fromStdString(to_string(dist(closestPair))));
+    dmin->append(closestPair.first.first, closestPair.first.second);
+    dmin->append(closestPair.second.first, closestPair.second.second);
+
+    plot->setRenderHint(QPainter::Antialiasing);
+    plot->chart()->addSeries(series);
+    plot->chart()->addSeries(dmin);
+
+    //chart()->setTitle("Points");
+    plot->chart()->createDefaultAxes();
+    plot->chart()->setDropShadowEnabled(false);
+    //![4]
+
+    //![5]
+    plot->chart()->legend()->setMarkerShape(QLegend::MarkerShapeFromSeries);
+
+    QMainWindow window;
+    window.setCentralWidget(plot);
+    window.resize(500, 500);
+    window.show();
+
+    return app.exec();
 
 }
